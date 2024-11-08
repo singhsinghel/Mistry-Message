@@ -1,11 +1,11 @@
-import { string, z } from "zod";
+import { z } from "zod";
 
 export const usernameSchema = z
   .string()
-  .min(4, "username must be atleart 4 characters")
+  .min(4, "username must be atleast 4 characters")
   .max(20, "Username must be less than 20 characters")
   //alllowing only alphanumeric and underscores
-  .regex(/^[a-zA-Z0-9_]+$/, "Username must not contain spexial characters");
+  .regex(/^[a-zA-Z0-9_@]+$/, "Username must not contain spexial characters");
 
 export const signUpSchema = z.object({
   username: usernameSchema,
