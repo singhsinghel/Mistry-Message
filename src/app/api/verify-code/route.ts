@@ -5,6 +5,8 @@ export async function POST(request: Request) {
   await dbConnect();
   try {
     const { username, verifyCode } = await request.json();
+    console.log(username,verifyCode);
+    
     const user = await UserModel.findOne({username});
 
     if (!user) {
@@ -14,16 +16,16 @@ export async function POST(request: Request) {
       );
     }
     //checking expiry date of code
-    if (user.verifyCodeExpiry > new Date(Date.now())) {
+    if (user.verifyCodeExpiry < new Date(Date.now())) {
       return Response.json(
         { success: false, message: "Code expired" },
-        { status: 500 }
+        { status: 401 }
       );
     }
     if (user.verifyCode !== verifyCode) {
       return Response.json(
         { success: false, message: "Invalid code" },
-        { status: 500 }
+        { status: 401 }
       );
     }
 
@@ -35,7 +37,7 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-     console.error("failed verifying otp");
+     console.error("failed verifying otp",error);
      
     return Response.json(
       {

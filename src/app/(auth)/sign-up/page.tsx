@@ -48,7 +48,6 @@ const SignUp = () => {
   useEffect(() => {
     const checkUsernameUnique = async () => {
       if (username) {
-
         setIsCheckingUsername(true);
         setUsernameMessage("");
 
@@ -75,8 +74,6 @@ const SignUp = () => {
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSubmittingForm(true);
     try {
-      console.log(data);
-      
       const response = await axios.post<ApiResponse>(`/api/sign-up`, { data });
       if (response.data.success) {
         toast({ title: "Success", description: response.data.message });
@@ -119,7 +116,16 @@ const SignUp = () => {
                   </FormControl>
                   {isCheckingUsername && <Loader2 className="animate-spin" />}
                   {usernameMessage && (
-                    <FormDescription className={usernameMessage==="Username is unique"?'text-green-500':'text-red-500'}> {usernameMessage}</FormDescription>
+                    <FormDescription
+                      className={
+                        usernameMessage === "Username is unique"
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }
+                    >
+                      {" "}
+                      {usernameMessage}
+                    </FormDescription>
                   )}
                   <FormMessage />
                 </FormItem>

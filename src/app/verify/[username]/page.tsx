@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { toast } from "@/components/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,63 +20,96 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import axios, { AxiosError } from "axios";
+import { useParams, useRouter } from "next/navigation";
+import { verifySchema } from "@/schemas/verifySchema";
 
 const FormSchema = z.object({
-  pin: z.string().min(6, {
+  code: z.string().min(6, {
     message: "Your one-time password must be 6 characters.",
   }),
 });
 
-export function VerifyOtp() {
-  const form = useForm<z.infer<typeof FormSchema>>({
+function VerifyOtp() {
+  const router = useRouter();
+  const params = useParams();
+  const username = params.username;
+
+  const form = useForm<z.infer<typeof verifySchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      pin: "",
+      code: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data: z.infer<typeof verifySchema>) {
+    try {
+      const response = await axios.post(`/api/verify-code`, {
+        username,
+        verifyCode: data.code,
+      });
+      if (response.data.success) {
+        toast({
+          title: "Welcome to Mystry message",
+          description: response.data.message,
+        });
+        router.replace("/sign-in");
+      } else {
+        toast({
+          title: "Error",
+          description: response.data.message,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error Occured",
+        description: "Error verifying",
+      });
+    }
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        <FormField
-          control={form.control}
-          name="pin"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>One-Time Password</FormLabel>
-              <FormControl>
-                <InputOTP maxLength={6} {...field}>
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
-              </FormControl>
-              <FormDescription>
-                Please enter the one-time password sent to your phone.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <div className="flex w-full h-screen justify-center items-start md:items-center mt-10 md:mt-0 md:bg-gray-100 ">
+      <div className="form flex flex-col items-center  rounded-xl p-12 bg-white">
+            <h2 className="text-2xl font-bold text-nowrap mb-8">Verify your account</h2>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-2/3 space-y-6 flex flex-col justify-start  items-center"
+          >
+            <FormField
+              control={form.control}
+              name="code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>One-Time Password</FormLabel>
+                  <FormControl>
+                    <InputOTP maxLength={7} {...field}>
+                      <InputOTPGroup>
+                        <InputOTPSlot index={0} />
+                        <InputOTPSlot index={1} />
+                        <InputOTPSlot index={2} />
+                        <InputOTPSlot index={3} />
+                        <InputOTPSlot index={4} />
+                        <InputOTPSlot index={5} />
+                        <InputOTPSlot index={6} />
+                      </InputOTPGroup>
+                    </InputOTP>
+                  </FormControl>
+                  <FormDescription>
+                    Please enter the one-time password sent to your email.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+            <Button type="submit">Submit</Button>
+          </form>
+        </Form>
+      </div>
+    </div>
   );
 }
+
+export default VerifyOtp;

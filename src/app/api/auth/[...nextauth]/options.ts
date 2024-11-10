@@ -17,8 +17,11 @@ export const authOptions: NextAuthOptions = {
       // returning user to next auth
       async authorize(credentials: any): Promise<any> {
         await dbConnect();
+        console.log(credentials);
+        
         try {
           //finding user by email "OR" username
+          
           const user = await UserModel.findOne({
             $or: [
               { email: credentials.identifier },
