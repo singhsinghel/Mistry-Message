@@ -58,14 +58,14 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("failed to update acceptOrRejectMessages");
+    console.error("failed to update acceptOrRejectMessages",error);
     return Response.json(
       { success: false, messsage: "Failed updating messages" },
       { status: 500 }
     );
   }
 }
-export async function Get(request: Request) {
+export async function Get() {
   await dbConnect();
   try {
     const userId = extractUserId();
@@ -87,7 +87,7 @@ export async function Get(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("failed to update accept Or Reject Messages");
+    console.error("failed to update accept Or Reject Messages",error);
     return Response.json(
       { success: false, messsage: "Failed getting messages settings" },
       { status: 500 }

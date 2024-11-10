@@ -4,7 +4,7 @@ import UserModel from "@/model/User";
 import { dbConnect } from "@/lib/dbConnect";
 import mongoose from "mongoose";
 
-export async function GET(request: Request) {
+export async function GET() {
   const session = await getServerSession(authOptions);
   const user: User = session?.user as User;
   if (!session || !session.user) {
@@ -26,14 +26,14 @@ export async function GET(request: Request) {
       { $sort: { "messages.createdAt": -1 } },
       { $group: { _id: "$_id", messages: { $push: "$messages" } } },
     ]);
-    
+
     //In this condition the aggregation pipeline will return an array of the user
-    if (!UserForMessages||UserForMessages.length===0) {
+    if (!UserForMessages || UserForMessages.length === 0) {
       return Response.json(
         {
           success: false,
           messsgae: "User not found",
-        }, 
+        },
         { status: 401 }
       );
     }
@@ -41,12 +41,12 @@ export async function GET(request: Request) {
       {
         success: true,
         messsgae: "Got all messages",
-        messages: UserForMessages[0].messages
+        messages: UserForMessages[0].messages,
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error getting all messages");
+    console.error("Error getting all messages", error);
     return Response.json(
       {
         success: false,

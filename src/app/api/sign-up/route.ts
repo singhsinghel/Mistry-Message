@@ -1,7 +1,7 @@
 import { dbConnect } from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
-import { z } from "zod";
+
 import { signUpSchema } from "@/schemas/signUpSchema";
 
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";

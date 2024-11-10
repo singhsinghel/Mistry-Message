@@ -10,7 +10,7 @@ export async function sendVerificationEmail(
 ): Promise<ApiResponse> {
   //the function returns a Promise of type ApiResponse
   try {
-   const newWmail = await resend.emails.send({
+    await resend.emails.send({
      from: "Mystry Message <onboarding@resend.dev>",
      to: email,
      subject: "Mystry Message | Verification Code",

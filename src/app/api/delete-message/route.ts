@@ -2,7 +2,6 @@ import { dbConnect } from "@/lib/dbConnect";
 import UserModel, { User } from "@/model/User";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
-import { useParams } from "next/navigation";
 
 export async function DELETE(request: Request) {
   await dbConnect();
@@ -17,16 +16,17 @@ export async function DELETE(request: Request) {
       );
     }
     const deleteMessageUser = await UserModel.updateOne(
-     {_id: user._id},
+      { _id: user._id },
       {
-        $pull: { messages: {_id:messageId} },
+        $pull: { messages: { _id: messageId } },
       },
       { new: true }
     );
-    if(deleteMessageUser.modifiedCount==0)
-        return Response.json(
-      { success: false, message: "Message already deleted" },
-      { status: 404 })
+    if (deleteMessageUser.modifiedCount == 0)
+      return Response.json(
+        { success: false, message: "Message already deleted" },
+        { status: 404 }
+      );
 
     return Response.json(
       { success: true, message: "Message deleted successfully" },
@@ -34,7 +34,7 @@ export async function DELETE(request: Request) {
     );
   } catch (error) {
     return Response.json(
-      { success: false, message: "Message deletion failed" },
+      { success: false, message: "Message deletion failed", error },
       { status: 500 }
     );
   }

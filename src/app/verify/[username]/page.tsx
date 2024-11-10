@@ -20,7 +20,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { verifySchema } from "@/schemas/verifySchema";
 
@@ -61,6 +61,7 @@ function VerifyOtp() {
         });
       }
     } catch (error) {
+      console.log(error);
       toast({
         title: "Error Occured",
         description: "Error verifying",
@@ -71,7 +72,9 @@ function VerifyOtp() {
   return (
     <div className="flex w-full h-screen justify-center items-start md:items-center mt-10 md:mt-0 md:bg-gray-100 ">
       <div className="form flex flex-col items-center  rounded-xl p-12 bg-white">
-            <h2 className="text-2xl font-bold text-nowrap mb-8">Verify your account</h2>
+        <h2 className="text-2xl font-bold text-nowrap mb-8">
+          Verify your account
+        </h2>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
