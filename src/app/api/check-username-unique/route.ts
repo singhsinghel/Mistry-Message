@@ -9,7 +9,6 @@ const UsernameQuerySchema = z.object({
 });
 
 export async function GET(request: Request) {
-
   //connecting db
   await dbConnect();
 
@@ -28,7 +27,7 @@ export async function GET(request: Request) {
       return Response.json({
         success: false,
         message:
-          //if userErrors exists then we'll send all the errors with comma between them
+          //if usernameErrors exists then we'll send all the errors with comma between them
           usernameErrors?.length > 0
             ? usernameErrors.join(", ")
             : "Invalid Query parameters",
@@ -37,10 +36,12 @@ export async function GET(request: Request) {
 
     //extracting username from result(result gives status and data)
     const { username } = result.data;
+
     const existinguser = await UserModel.findOne({
-      username,
+      username: username,
       isVerified: true,
     });
+
     if (existinguser)
       return Response.json(
         { success: false, message: "Username is already taken" },

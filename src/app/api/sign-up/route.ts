@@ -10,8 +10,9 @@ export async function POST(request: Request) {
   await dbConnect();
   try {
     //checking user by username
-    const { username, password, email } = await request.json(); //next.js requires await for parsing into json
-
+    const { data } = await request.json(); //next.js requires await for parsing into json
+   const {username, password, email}=data
+   
     const checkSchema = {
       username,
       password,
