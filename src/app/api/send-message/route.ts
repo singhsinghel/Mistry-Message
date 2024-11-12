@@ -3,7 +3,8 @@ import { dbConnect } from "@/lib/dbConnect";
 
 export async function POST(request: Request) {
   const { username, content } = await request.json();
-
+  console.log(username,content);
+  
   await dbConnect();
   try {
     const user = await UserModel.findOne({ username });

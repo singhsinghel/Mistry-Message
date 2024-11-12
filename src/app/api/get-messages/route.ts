@@ -19,13 +19,19 @@ export async function GET() {
     //as user._id is converted into string in options callback, and aggregation pipeline in mongodb can cause problem for accessing it,
     // so here new type is defined which will automatically convert it into ObjectId
     const userId = new mongoose.Types.ObjectId(user._id);
-    const UserForMessages = await UserModel.aggregate([
-      { $match: { id: userId } },
 
-      { $unwind: "$messages" },
+    const UserForMessages = await UserModel.aggregate([
+      { $match: { _id: userId } },
+      {
+        $addFields: {
+          messages: { $ifNull: ["$messages", []] },
+        },
+      },
+      { $unwind: { path: "$messages", preserveNullAndEmptyArrays: true } },
       { $sort: { "messages.createdAt": -1 } },
       { $group: { _id: "$_id", messages: { $push: "$messages" } } },
     ]);
+    console.log(UserForMessages);
 
     //In this condition the aggregation pipeline will return an array of the user
     if (!UserForMessages || UserForMessages.length === 0) {

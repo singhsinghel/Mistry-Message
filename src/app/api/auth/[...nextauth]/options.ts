@@ -63,7 +63,7 @@ export const authOptions: NextAuthOptions = {
         //storing info of user in token
         token._id = user._id?.toString(); // for adding these types in user user is manipulated at next-auth.d.ts
         token.isVerified = user.isVerified;
-        token.isAcceptingMessages = user.isAcceptingMessages;
+        token.isAcceptingMessage = user.isAcceptingMessage;
         token.username = user.username;
       }
       return token;
@@ -73,7 +73,7 @@ export const authOptions: NextAuthOptions = {
         //storing info of user in session
         session.user._id = token._id;
         session.user.isVerified = token.isVerified;
-        session.user.isAcceptingMessages = token.isAcceptingMessages;
+        session.user.isAcceptingMessage = token.isAcceptingMessage;
         session.user.username = token.username;
       }
       return session;

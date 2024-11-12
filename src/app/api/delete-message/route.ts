@@ -33,6 +33,8 @@ export async function DELETE(request: Request) {
       { status: 200 }
     );
   } catch (error) {
+    console.log(error);
+    
     return Response.json(
       { success: false, message: "Message deletion failed", error },
       { status: 500 }

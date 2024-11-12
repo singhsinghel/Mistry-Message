@@ -1,0 +1,52 @@
+[
+  {
+    "title": "Message from User123",
+    "content": "Hey, how are you?",
+    "received": "10 min ago"
+  },
+  {
+    "title": "Message from User456",
+    "content": "Hello! Just checking in.",
+    "received": "20 min ago"
+  },
+  {
+    "title": "Message from User789",
+    "content": "Are you available for a quick chat?",
+    "received": "30 min ago"
+  },
+  {
+    "title": "Message from User321",
+    "content": "Let me know if you got my last message.",
+    "received": "1 hour ago"
+  },
+  {
+    "title": "Message from User654",
+    "content": "Good morning! Hope you’re well.",
+    "received": "2 hours ago"
+  },
+  {
+    "title": "Message from User987",
+    "content": "Can you send me the report?",
+    "received": "3 hours ago"
+  },
+  {
+    "title": "Message from User234",
+    "content": "Thanks for the update!",
+    "received": "5 hours ago"
+  },
+  {
+    "title": "Message from User567",
+    "content": "Could you review my changes?",
+    "received": "7 hours ago"
+  },
+  {
+    "title": "Message from User890",
+    "content": "When is the next meeting?",
+    "received": "9 hours ago"
+  },
+  {
+    "title": "Message from User112",
+    "content": "Looking forward to your reply.",
+    "received": "1 day ago"
+  }
+]

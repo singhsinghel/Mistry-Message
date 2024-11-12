@@ -3,39 +3,43 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import UserModel from "@/model/User";
 import { dbConnect } from "@/lib/dbConnect";
 import { User } from "next-auth";
+import { NextResponse } from "next/server";
 
-async function extractUserId() {
-  const session = await getServerSession(authOptions);
-  const user: User = session?.user as User;
-  if (!session || session.user) {
-    return Response.json(
-      {
-        success: false,
-        message: "not authenticated, please login again",
-      },
-      { status: 401 }
-    );
-  }
-  const userId = user._id;
-  return userId;
-}
+// async function extractUserId() {
+//   const session = await getServerSession(authOptions);
+//   const user: User = session?.user as User;
+//   console.log(user);
+
+//   if (!session || session.user) {
+//     return Response.json(
+//       {
+//         success: false,
+//         message: "not authenticated, please login again",
+//       },
+//       { status: 401 }
+//     );
+//   }
+//   const userId = user._id;
+//   console.log("userId",userId);
+
+//   return userId;
+// }
 
 export async function POST(request: Request) {
   await dbConnect();
   try {
-    // const session = await getServerSession(authOptions);
-    // const user: User = session?.user as User;
-    // if (!session || session.user) {
-    //   return Response.json(
-    //     {
-    //       success: false,
-    //       message: "not authenticated, please login again",
-    //     },
-    //     { status: 401 }
-    //   );
-    // }
-    // const userId = user._id;
-    const userId = extractUserId();
+    const session = await getServerSession(authOptions);
+    const user: User = session?.user as User;
+    if (!session || !session.user) {
+      return Response.json(
+        {
+          success: false,
+          message: "not authenticated, please login again",
+        },
+        { status: 401 }
+      );
+    }
+    const userId = user._id;
     const { acceptOrRejectMessages } = await request.json();
     const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
@@ -58,7 +62,7 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("failed to update acceptOrRejectMessages",error);
+    console.error("failed to update acceptOrRejectMessages", error);
     return Response.json(
       { success: false, messsage: "Failed updating messages" },
       { status: 500 }
@@ -68,9 +72,19 @@ export async function POST(request: Request) {
 export async function GET() {
   await dbConnect();
   try {
-    const userId = extractUserId();
-    const user = await UserModel.findById(userId);
-
+    const session = await getServerSession(authOptions);
+    const checkUser: User = session?.user as User;
+    if (!session || !session.user) {
+      return Response.json(
+        {
+          success: false,
+          message: "not authenticated, please login again",
+        },
+        { status: 401 }
+      );
+    }
+    const userId = checkUser._id;
+    const user = await UserModel.findById(userId?.toString());
     //check if we are getting a user or not
     if (!user) {
       return Response.json(
@@ -87,7 +101,7 @@ export async function GET() {
       { status: 200 }
     );
   } catch (error) {
-    console.error("failed to update accept Or Reject Messages",error);
+    console.log("failed to update accept Or Reject Messages",error);
     return Response.json(
       { success: false, messsage: "Failed getting messages settings" },
       { status: 500 }
