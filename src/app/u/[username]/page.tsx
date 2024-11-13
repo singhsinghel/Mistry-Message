@@ -52,7 +52,7 @@ const Page = () => {
       setIsSubmittingForm(false);
     } catch (error) {
       console.log("error signing-in user",error);
-      ({ title: "signUp failed", variant: "destructive" });
+      toast({ title: "signUp failed", variant: "destructive" });
       setIsSubmittingForm(false);
     }
   };
