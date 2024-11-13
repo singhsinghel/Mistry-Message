@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { signInSchema } from "@/schemas/signInSchema";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 const SignIn = () => {
   const [isSubmittingForm, setIsSubmittingForm] = useState(false);
@@ -125,6 +126,7 @@ const SignIn = () => {
                   "SignIn"
                 )}
               </Button>
+              <p>New to Mystry message? <Link href="/sign-up" className="font-semibold cursor-pointer underline">SignUp</Link></p>
             </form>
           </Form>
         </div>

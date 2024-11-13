@@ -3,7 +3,6 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import UserModel from "@/model/User";
 import { dbConnect } from "@/lib/dbConnect";
 import { User } from "next-auth";
-import { NextResponse } from "next/server";
 
 // async function extractUserId() {
 //   const session = await getServerSession(authOptions);

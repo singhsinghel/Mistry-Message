@@ -22,13 +22,12 @@ import { X } from "lucide-react";
 import axios from "axios";
 import { Message } from "@/model/User";
 import { useToast } from "@/hooks/use-toast";
-import { ObjectId } from "mongoose";
 
 type MessageCardProps = {
   message: Message;
   onMessageDelete: (messageId: string) => void;
 };
-const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
+const MessageCard = ({ message}: MessageCardProps) => {
   console.log(message._id);
   const date = new Date(message.createdAt);
 
@@ -80,7 +79,7 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
 
         {/* for deleting messages */}
         <AlertDialog>
-          <AlertDialogTrigger>
+          <AlertDialogTrigger asChild>
             <Button variant="destructive">
               <X className="x-5 h-5" />
             </Button>

@@ -22,6 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
@@ -180,6 +181,15 @@ const SignUp = () => {
                 "SignUp"
               )}
             </Button>
+            <p>
+              New to Mystry message?{" "}
+              <Link
+                href="/sign-in"
+                className="font-semibold cursor-pointer underline"
+              >
+                SignIn
+              </Link>
+            </p>
           </form>
         </Form>
       </div>
