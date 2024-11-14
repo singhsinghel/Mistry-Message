@@ -119,34 +119,41 @@ const Page = () => {
                   </FormItem>
                 )}
               />
-              <Button
-                className="md:w-2/5"
-                type="submit"
-                disabled={isSubmittingForm}
-              >
-                {isSubmittingForm ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
-                    wait
-                  </>
-                ) : (
-                  "Send message"
-                )}
-              </Button>
+              <div className="buttons grid grid-cols-2 gap-4">
+                <Button
+                  className=""
+                  type="submit"
+                  disabled={isSubmittingForm}
+                >
+                  {isSubmittingForm ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                      wait
+                    </>
+                  ) : (
+                    "Send message"
+                  )}
+                </Button>
+                <Button
+                variant="secondary"
+                  onClick={getSuggestions}
+                  disabled={isLoadingSuggestions}
+                >
+                  {isLoadingSuggestions ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+                      Loading...
+                    </>
+                  ) : (
+                    "Suggest messages"
+                  )}
+                </Button>
+              </div>
             </form>
           </Form>
         </div>
 
         <div className="suggest-message">
-          <Button onClick={getSuggestions} disabled={isLoadingSuggestions}>
-            {isLoadingSuggestions ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading...
-              </>
-            ) : (
-              "Suggest messages"
-            )}
-          </Button>
           {suggestions.length > 0 && (
             <>
               <p className="mt-2">Click on any message to copy on the input</p>
