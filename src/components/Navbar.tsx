@@ -10,7 +10,6 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -28,9 +27,9 @@ const Navbar = () => {
   return (
     <nav className="p-4  md:p-6 shadow-md w-full inset-0 bg-white">
       <div className="container px-4 h-10 md:h-auto sm:px-6 md:px-8 lg:px-48 mx-auto flex justify-between items-center">
-        <a className="text-xl font-bold md:mb-0" href="/">
+        <Link className="text-xl font-bold md:mb-0" href="/">
           MistryMessage
-        </a>
+        </Link>
         <div className="left">
           {session ? (
             <>

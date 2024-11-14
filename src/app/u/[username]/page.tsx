@@ -1,5 +1,4 @@
 'use client'
-import { useCompletion } from "ai/react";
 import { useToast } from "@/hooks/use-toast";
 import { messageSchema } from "@/schemas/messageSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
