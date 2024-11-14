@@ -62,7 +62,7 @@ const MessageCard = ({ message}: MessageCardProps) => {
   }
   return (
     <div>
-      <Card className="flex justify-between px-2">
+      <Card className="flex justify-between items-center p-2">
         <CardHeader>
           <CardTitle className="text-xl font-semibold pb-4 ">
             {message.content}
@@ -88,8 +88,7 @@ const MessageCard = ({ message}: MessageCardProps) => {
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
+                If you will delete this message it will be deleted permanently from your data.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
