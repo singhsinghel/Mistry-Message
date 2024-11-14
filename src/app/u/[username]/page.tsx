@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useToast } from "@/hooks/use-toast";
 import { messageSchema } from "@/schemas/messageSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,12 +15,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 const Page = () => {
-
   const params = useParams();
   const { toast } = useToast();
   const { username } = params;
@@ -46,15 +45,23 @@ const Page = () => {
 
       if (response.data.success === true) {
         toast({ title: "Success", description: response.data.message });
-      } else {
+      } else if (response.data.success === false) {
         toast({
           title: "Error",
           description: response.data.message,
+          variant: "destructive",
         });
       }
     } catch (error) {
-      console.log("error sending message", error);
-      toast({ title: "Message sending failed", variant: "destructive" });
+      const axiosError = error as AxiosError;
+
+      const errorMessage = (axiosError.response?.data as { message: string })
+        .message;
+
+      toast({
+        title: errorMessage,
+        variant: "destructive",
+      });
     } finally {
       setIsSubmittingForm(false);
     }
@@ -82,10 +89,10 @@ const Page = () => {
       setIsLoadingSuggestions(false);
     }
   };
-    const handleSuggestionClick = (message:string) => {
-      // Update the input field with the clicked suggestion
-      form.setValue("content", message);
-    };
+  const handleSuggestionClick = (message: string) => {
+    // Update the input field with the clicked suggestion
+    form.setValue("content", message);
+  };
   return (
     <>
       <Navbar />
@@ -119,11 +126,7 @@ const Page = () => {
                 )}
               />
               <div className="buttons grid grid-cols-2 gap-4">
-                <Button
-                  className=""
-                  type="submit"
-                  disabled={isSubmittingForm}
-                >
+                <Button className="" type="submit" disabled={isSubmittingForm}>
                   {isSubmittingForm ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
@@ -134,7 +137,7 @@ const Page = () => {
                   )}
                 </Button>
                 <Button
-                variant="secondary"
+                  variant="secondary"
                   onClick={getSuggestions}
                   disabled={isLoadingSuggestions}
                 >
